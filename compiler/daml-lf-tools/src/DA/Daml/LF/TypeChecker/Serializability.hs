@@ -108,6 +108,7 @@ serializabilityConditionsType world0 _version mbModNameTpls vars = go
         BTContractError -> noConditions
       TForall{} -> Left URForall
       TStruct{} -> Left URStruct
+      TExperimental{}  -> Left URExperimental
 
 -- | Determine whether a data type preserves serializability. When a module
 -- name is given, -- data types in this module are returned rather than lookup

@@ -787,9 +787,10 @@ convType env reexported =
             pure $ HsTupleTy noExt
                 (if isConstraint ty then HsConstraintTuple else HsBoxedTuple)
                 (map noLoc tys)
-
         LF.TNat n -> pure $
             HsTyLit noExt (HsNumTy NoSourceText (LF.fromTypeLevelNat n))
+        LF.TExperimental _ _ ->
+            mkGhcType env "Experimental"
   where
     mkTuple :: Int -> Gen (HsType GhcPs)
     mkTuple i =
@@ -997,6 +998,7 @@ refsFromType = go
         LF.TApp a b -> go a <> go b
         LF.TForall _ b -> go b
         LF.TStruct fields -> foldMap (go . snd) fields
+        LF.TExperimental _ _ -> mempty
 
 refsFromDefTypeSyn :: LF.DefTypeSyn -> DL.DList Ref
 refsFromDefTypeSyn = refsFromType . LF.synType

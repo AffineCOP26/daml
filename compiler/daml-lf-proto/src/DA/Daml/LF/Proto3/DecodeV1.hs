@@ -614,6 +614,8 @@ decodeExprSum exprSum = mayDecode "exprSum" exprSum $ \case
     <$> mayDecode "expr_ThrowReturnType" expr_ThrowReturnType decodeType
     <*> mayDecode "expr_ThrowExceptionType" expr_ThrowExceptionType decodeType
     <*> mayDecode "expr_ThrowExceptionExpr" expr_ThrowExceptionExpr decodeExpr
+  LF1.ExprSumExperimental _ ->
+    error "experimental not supported"
 
 decodeUpdate :: LF1.Update -> Decode Expr
 decodeUpdate LF1.Update{..} = mayDecode "updateSum" updateSum $ \case
@@ -828,6 +830,8 @@ decodeType LF1.Type{..} = mayDecode "typeSum" typeSum $ \case
   LF1.TypeSumInterned n -> do
     DecodeEnv{internedTypes} <- ask
     lookupInterned internedTypes BadTypeId n
+  LF1.TypeSumExperimental _ ->
+    error "experimental not supported"
   where
     decodeWithArgs :: V.Vector LF1.Type -> Decode Type -> Decode Type
     decodeWithArgs args fun = foldl' TApp <$> fun <*> traverse decodeType args

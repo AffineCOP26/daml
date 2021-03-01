@@ -25,6 +25,7 @@ import Control.Lens.Ast
 import Control.Lens.MonoTraversal
 import Data.Functor.Foldable (cata, embed)
 import qualified Data.NameMap as NM
+import qualified Data.Text as T
 
 import DA.Daml.LF.Ast.Base
 import DA.Daml.LF.Ast.TypeLevelNat
@@ -106,6 +107,7 @@ builtinType f =
         TForall b body -> TForall b <$> builtinType f body
         TStruct fs -> TStruct <$> (traverse . _2) (builtinType f) fs
         TNat n -> pure $ TNat n
+        TExperimental name kind -> pure $ TExperimental name kind
 
 type ModuleRef = (PackageRef, ModuleName)
 
@@ -185,6 +187,7 @@ instance MonoTraversable ModuleRef FeatureFlags
 instance MonoTraversable ModuleRef Module
 instance MonoTraversable ModuleRef PackageMetadata
 instance MonoTraversable ModuleRef Package
+instance MonoTraversable ModuleRef T.Text where monoTraverse _ = pure
 
 exprPartyLiteral
   :: forall f. Applicative f

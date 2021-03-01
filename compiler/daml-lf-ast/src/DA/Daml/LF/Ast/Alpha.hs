@@ -95,6 +95,9 @@ alphaType' env = \case
     TSynApp s1 ts1 -> \case
         TSynApp s2 ts2 -> s1 == s2 && onList (alphaType' env) ts1 ts2
         _ -> False
+    TExperimental n1 k1 -> \case
+        TExperimental n2 k2 -> n1 == n2 && k1 == k2
+        _ -> False
 
 alphaTypeConApp :: AlphaEnv -> TypeConApp -> TypeConApp -> Bool
 alphaTypeConApp env (TypeConApp c1 ts1) (TypeConApp c2 ts2) =
@@ -220,6 +223,9 @@ alphaExpr' env = \case
         _ -> False
     ELocation _ e1 -> \case
         ELocation _ e2 -> alphaExpr' env e1 e2
+        _ -> False
+    EExperimental n1 t1 -> \case
+        EExperimental n2 t2 -> n1 == n2 && alphaType t1 t2
         _ -> False
 
 alphaBinding :: AlphaEnv -> Binding -> Binding -> (AlphaEnv -> Bool) -> Bool

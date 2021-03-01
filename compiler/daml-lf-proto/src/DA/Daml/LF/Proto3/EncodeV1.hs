@@ -340,7 +340,11 @@ encodeType' typ = do
     (TStruct flds, []) -> do
         type_StructFields <- encodeFieldsWithTypes unFieldName flds
         pure $ P.TypeSumStruct P.Type_Struct{..}
-
+    (TExperimental name kind, args) -> do
+        let type_ExperimentalName = encodeString name
+        type_ExperimentalKind <- Just <$> encodeKind kind
+        type_ExperimentalArgs <- encodeList encodeType' args
+        pure $ P.TypeSumExperimental P.Type_Experimental{..}
     (TNat n, _) ->
         pure $ P.TypeSumNat (fromTypeLevelNat n)
 
@@ -685,6 +689,10 @@ encodeExpr' = \case
         expr_ThrowExceptionType <- encodeType ty2
         expr_ThrowExceptionExpr <- encodeExpr val
         pureExpr $ P.ExprSumThrow P.Expr_Throw{..}
+    EExperimental name ty -> do
+        let expr_ExperimentalName = encodeString name
+        expr_ExperimentalType <- encodeType ty
+        pureExpr $ P.ExprSumExperimental P.Expr_Experimental{..}
   where
     expr = P.Expr Nothing . Just
     pureExpr = pure . expr

@@ -186,6 +186,7 @@ instance Pretty Type where
              <-> pPrintPrec lvl precTForall t1)
     TStruct fields -> pPrintStruct lvl docHasType fields
     TNat n -> integer (fromTypeLevelNat n)
+    TExperimental name _ -> pPrint $ "$" <> name
 
 precEApp, precELam :: Rational
 precEApp = 2
@@ -514,6 +515,7 @@ instance Pretty Expr where
         [TyArg ty, TmArg val]
     EThrow ty1 ty2 val -> pPrintAppKeyword lvl prec "throw"
         [TyArg ty1, TyArg ty2, TmArg val]
+    EExperimental name _ ->  pPrint $ "$" <> name
 
 instance Pretty DefTypeSyn where
   pPrintPrec lvl _prec (DefTypeSyn mbLoc syn params typ) =

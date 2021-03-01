@@ -210,6 +210,8 @@ data Type
   | TStruct      ![(FieldName, Type)]
   -- | Type-level natural numbers
   | TNat !TypeLevelNat
+  -- | Exprimental Hook
+  | TExperimental !T.Text !Kind
   deriving (Eq, Data, Generic, NFData, Ord, Show)
 
 -- | Fully applied qualified type constructor.
@@ -536,6 +538,8 @@ data Expr
   | EScenario !Scenario
   -- | An expression annotated with a source location.
   | ELocation !SourceLoc !Expr
+  -- | Experimental Expression Hook
+  | EExperimental !T.Text !Type
   deriving (Eq, Data, Generic, NFData, Ord, Show)
 
 -- | Pattern matching alternative.
