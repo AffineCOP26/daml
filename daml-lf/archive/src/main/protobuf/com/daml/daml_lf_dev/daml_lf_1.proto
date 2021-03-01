@@ -41,13 +41,13 @@
 //         2019-12-03: Add type synonyms
 //         2020-02-20: Add PackageMetadata.
 // * 11 -- 2019-11-12: Add Generic Map (GenMap)
-//         2019-12-03: Add (experimental) text primitives.
 //         2019-12-05: Add Generic Equality builtin
 //         2019-10-13: Add ExerciseByKey Update
 //         2020-11-04: Add interning of types
 //         2020-11-20: Add choice-observers
 // * 12 -- 2021-01-27: No Archive changes
 // * dev (special staging area for the next version to be released)
+//        2019-12-03: Add (experimental) text primitives.
 //        2020-11-27: Add exception handling & primitives
 
 syntax = "proto3";
@@ -404,6 +404,12 @@ message Type {
     repeated FieldWithType fields = 1;
   }
 
+  message Experimental{
+    string name = 1;
+    Kind kind = 2;
+    repeated Type args = 3;
+  }
+
   oneof Sum {
     Var var = 1;
     Con con = 2;
@@ -417,6 +423,8 @@ message Type {
     Syn syn = 12; // *Available in versions >= 1.8*
 
     int32 interned = 13; // *Available in versions >= 1.11*
+
+    Experimental experimental = 9999; // *Available only in 1.dev*
   }
 
   reserved 4; // This was fun.  Removed in favour of PrimType.ARROW
@@ -907,6 +915,11 @@ message Expr {
     Expr exception_expr = 3;
   }
 
+  message Experimental {
+    string name = 1;
+    Type type = 2 ;
+  }
+
   // Location of the expression in the Daml code source.
   // Optional
   Location location = 25;
@@ -1016,6 +1029,8 @@ message Expr {
     // Throw an exception ('ExpThrow').
     // *Available in versions >= 1.dev*
     Throw throw = 35;
+
+    Experimental experimental = 9999;
   }
 
   reserved 19; // This was equals. Removed in favour of BuiltinFunction.EQUAL_*
