@@ -2,8 +2,7 @@
 -- SPDX-License-Identifier: Apache-2.0
 
 {-# LANGUAGE CPP #-}
---{-# LANGUAGE NoImplicitPrelude #-}
---{-# OPTIONS -Wno-unused-binds #-} -- the opaque constructors are not exported
+{-# OPTIONS -Wno-unused-binds #-} -- the opaque constructors are not exported
 
 #ifdef DAML_EXPERIMENTAL
 module DA.Experimental where
