@@ -239,7 +239,7 @@ Version: 1.dev (development)
 ............................
 
   + **Add** exception handling.
-  + **Add** BigDecimal type.
+  + **Add** BigNumeric type.
 
     - add `BigNumeric` primitive type
     - add `RoundingMode` primitive type
@@ -504,11 +504,11 @@ The literals represent actual Daml-LF values:
   ``38``, bounds inclusive.
 * A ``LitInt64`` represents a standard signed 64-bit integer (integer
   between ``−2⁶³`` to ``2⁶³−1``).
-* A decimal numbers is a signed number that can be represented as a
+* A decimal number is a signed number that can be represented as a
   product `i * 10^-s` where `i` (the *unscaled value* of the number)
   is a signed integer not divisible by ten and `s` (the *scale* of the
   number) is a signed integer. The *precision* of a decimal numbers
-  if the number of digits of its unscaled value (ignoring possible
+  is the number of digits of its unscaled value (ignoring possible
   leading zeros). By convention the scale and the precision of zero
   are 0.  Daml-LF distinguishes two kinds of decimal numbers:
   + A ``LitNumeric`` represents those decimal numbers that have a
@@ -3774,7 +3774,7 @@ BigNumeric functions
 
 * ``SUB_BIGNUMERIC : 'BigNumeric' → 'BigNumeric' → 'BigNumeric'``
 
-  Subtracts the two decimals. Throws an ``ArithmeticError`` if the
+  Subtracts the two numerics. Throws an ``ArithmeticError`` if the
   output is not a valid BigNumeric.
 
 * ``MUL_BIGNUMERIC : 'BigNumeric' → 'BigNumeric' → 'BigNumeric'``
@@ -3784,7 +3784,7 @@ BigNumeric functions
 
 * ``DIV_BIGNUMERIC : 'RoundingMode' → 'Int' → 'BigNumeric' → 'BigNumeric' → 'BigNumeric'``
 
-  Divides the first decimal by the second one and rounds the result
+  Divides the first numeric by the second one and rounds the result
   according the rounding mode.  The scale of the output is given by
   the second argument.  If the result cannot be represented exactly at
   the given scale, the result is rounded accordingly the
