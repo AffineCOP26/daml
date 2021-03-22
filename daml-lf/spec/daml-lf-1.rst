@@ -3769,7 +3769,7 @@ BigNumeric functions
 
 * ``ADD_BIGNUMERIC : 'BigNumeric' → 'BigNumeric'  → 'BigNumeric'``
 
-  Adds the two decimals. Throws an ``ArithmeticError`` if the output
+  Adds the two numerics. Throws an ``ArithmeticError`` if the output
   is not a valid BigNumeric.
 
 * ``SUB_BIGNUMERIC : 'BigNumeric' → 'BigNumeric' → 'BigNumeric'``
