@@ -15,7 +15,7 @@ import com.daml.metrics.{Metrics, Timed}
 import com.daml.platform.store.Conversions._
 import com.daml.platform.store.DbType
 import com.daml.platform.store.dao.DbDispatcher
-import com.daml.platform.store.dao.events.SqlFunctions.{H2SqlFunctions, PostgresSqlFunctions}
+import com.daml.platform.store.dao.events.SqlFunctions.{H2SqlFunctions, OracleSqlFunctions, PostgresSqlFunctions}
 import com.daml.platform.store.serialization.{Compression, ValueSerializer}
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -134,6 +134,7 @@ private[dao] object ContractsReader {
     def sqlFunctions = dbType match {
       case DbType.Postgres => PostgresSqlFunctions
       case DbType.H2Database => H2SqlFunctions
+      case DbType.Oracle => OracleSqlFunctions
     }
     new ContractsReader(
       committedContracts = ContractsTable(dbType),
